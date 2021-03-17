@@ -67,13 +67,14 @@ const displayValue = (
     if (list.length > 0) {
       // Check if this type of object has a primary key
       const firstObject: Realm.Object = list[0];
+      // Note: (QuickFix) Since realm@10.2.0 we started receiving realm objects without `objectSchema()` defined.
+      if (!firstObject.objectSchema) return;
+
       const primaryKey = firstObject.objectSchema().primaryKey;
       if (primaryKey) {
         let limitedString = list
           .slice(0, VALUE_LENGTH_LIMIT)
-          .map(element => {
-            return element[primaryKey];
-          })
+          .map(element => element[primaryKey])
           .join(', ');
         if (list.length > VALUE_LENGTH_LIMIT) {
           limitedString += ' (and more)';
