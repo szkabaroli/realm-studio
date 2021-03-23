@@ -67,9 +67,6 @@ const displayValue = (
     if (list.length > 0) {
       // Check if this type of object has a primary key
       const firstObject: Realm.Object = list[0];
-      // Note: (QuickFix) Since realm@10.2.0 we started receiving realm objects without `objectSchema()` defined.
-      if (!firstObject.objectSchema) return;
-
       const primaryKey = firstObject.objectSchema().primaryKey;
       if (primaryKey) {
         let limitedString = list
